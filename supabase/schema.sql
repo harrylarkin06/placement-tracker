@@ -11,3 +11,20 @@ create table applications (
   notes        text,
   created_at   timestamptz not null default now()
 );
+
+create policy "Users can view their own applications"
+  on applications for select
+  using (auth.uid() = user_id);
+
+create policy "Users can insert their own applications"
+  on applications for insert
+  with check (auth.uid() = user_id);
+
+create policy "Users can update their own applications"
+  on applications for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+create policy "Users can delete their own applications"
+  on applications for delete
+  using (auth.uid() = user_id);
