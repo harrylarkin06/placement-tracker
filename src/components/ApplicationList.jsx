@@ -40,7 +40,7 @@
 //   )
 // }
 
-export default function ApplicationList({ applications, loading, error }) {
+export default function ApplicationList({ applications, loading, error, onDelete }) {
   if (loading) return <p>Loading…</p>
   if (error) return <p>Error: {error}</p>
   if (applications.length === 0) return <p>No applications yet.</p>
@@ -51,6 +51,8 @@ export default function ApplicationList({ applications, loading, error }) {
         <li key={app.id}>
           <strong>{app.company}</strong> — {app.role} ({app.status})
           {app.deadline && <span> · Deadline: {app.deadline}</span>}
+          {' '}
+          <button onClick={() => onDelete(app.id)}>Delete</button>
         </li>
       ))}
     </ul>
