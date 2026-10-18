@@ -9,6 +9,7 @@ export default function ApplicationsPage() {
   const [error, setError] = useState(null);
   const [editingApp, setEditingApp] = useState(null);
   const [actionError, setActionError] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("All");
 
   async function fetchApplications() {
     const { data, error } = await supabase
@@ -61,6 +62,17 @@ export default function ApplicationsPage() {
         onCancel={() => setEditingApp(null)}
       />
       {actionError && <p>Error: {actionError}</p>}
+      <select
+        value={statusFilter}
+        onChange={(e) => setStatusFilter(e.target.value)}
+      >
+        <option value="All">All</option>
+        <option value="Applied">Applied</option>
+        <option value="Online Assessment">Online Assessment</option>
+        <option value="Interview">Interview</option>
+        <option value="Offer">Offer</option>
+        <option value="Rejected">Rejected</option>
+      </select>
       <ApplicationList
         applications={applications}
         loading={loading}
