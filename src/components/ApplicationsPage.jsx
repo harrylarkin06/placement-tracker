@@ -7,6 +7,7 @@ export default function ApplicationsPage() {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editingApp, setEditingApp] = useState(null);
 
   async function fetchApplications() {
     const { data, error } = await supabase
@@ -38,18 +39,29 @@ export default function ApplicationsPage() {
     fetchApplications();
   }
 
+  function handleSaved() {
+    setEditingApp(null);
+    fetchApplications();
+  }
+
   useEffect(() => {
     fetchApplications();
   }, []);
 
   return (
     <div>
-      <ApplicationForm onSaved={fetchApplications} />
+      <ApplicationForm
+        key={editingApp ? editingApp.id : "new"}
+        editingApp={editingApp}
+        onSaved={handleSaved}
+        onCancel={() => setEditingApp(null)}
+      />
       <ApplicationList
         applications={applications}
         loading={loading}
         error={error}
         onDelete={handleDelete}
+        onEdit={setEditingApp}
       />
     </div>
   );
