@@ -53,6 +53,10 @@ export default function ApplicationsPage() {
     fetchApplications();
   }, []);
 
+  const visibleApplications = applications.filter((app) =>
+    statusFilter === "All" ? true : app.status === statusFilter,
+  );
+
   return (
     <div>
       <ApplicationForm
@@ -74,7 +78,7 @@ export default function ApplicationsPage() {
         <option value="Rejected">Rejected</option>
       </select>
       <ApplicationList
-        applications={applications}
+        applications={visibleApplications}
         loading={loading}
         error={error}
         onDelete={handleDelete}
