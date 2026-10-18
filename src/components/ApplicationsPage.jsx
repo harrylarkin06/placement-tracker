@@ -8,6 +8,7 @@ export default function ApplicationsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingApp, setEditingApp] = useState(null);
+  const [actionError, setActionError] = useState(null);
 
   async function fetchApplications() {
     const { data, error } = await supabase
@@ -18,6 +19,7 @@ export default function ApplicationsPage() {
     if (error) {
       setError(error.message);
     } else {
+      setError(null);
       setApplications(data);
     }
     setLoading(false);
@@ -29,10 +31,12 @@ export default function ApplicationsPage() {
     );
     if (!confirmed) return;
 
+    setActionError(null);
+
     const { error } = await supabase.from("applications").delete().eq("id", id);
 
     if (error) {
-      setError(error.message);
+      setActionError(error.message);
       return;
     }
 
@@ -56,6 +60,7 @@ export default function ApplicationsPage() {
         onSaved={handleSaved}
         onCancel={() => setEditingApp(null)}
       />
+      {actionError && <p>Error: {actionError}</p>}
       <ApplicationList
         applications={applications}
         loading={loading}
