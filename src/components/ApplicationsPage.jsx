@@ -10,6 +10,7 @@ export default function ApplicationsPage() {
   const [editingApp, setEditingApp] = useState(null);
   const [actionError, setActionError] = useState(null);
   const [statusFilter, setStatusFilter] = useState("All");
+  const [sortBy, setSortBy] = useState("added");
 
   async function fetchApplications() {
     const { data, error } = await supabase
@@ -53,9 +54,19 @@ export default function ApplicationsPage() {
     fetchApplications();
   }, []);
 
-  const visibleApplications = applications.filter((app) =>
+  const filteredApplications = applications.filter((app) =>
     statusFilter === "All" ? true : app.status === statusFilter,
   );
+
+  const visibleApplications =
+    sortBy === "deadline"
+      ? [...filteredApplications].sort((a, b) => {
+          if (!a.deadline && !b.deadline) return 0;
+          if (!a.deadline) return 1;
+          if (!b.deadline) return -1;
+          return a.deadline.localeCompare(b.deadline);
+        })
+      : filteredApplications;
 
   return (
     <div>
@@ -77,6 +88,12 @@ export default function ApplicationsPage() {
         <option value="Offer">Offer</option>
         <option value="Rejected">Rejected</option>
       </select>
+
+      <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+        <option value="added">Newest first</option>
+        <option value="deadline">Deadline (soonest first)</option>
+      </select>
+      
       <ApplicationList
         applications={visibleApplications}
         loading={loading}
