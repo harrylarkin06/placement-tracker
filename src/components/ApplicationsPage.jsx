@@ -9,6 +9,8 @@ export default function ApplicationsPage() {
   const [error, setError] = useState(null);
   const [editingApp, setEditingApp] = useState(null);
   const [actionError, setActionError] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [sortBy, setSortBy] = useState("added");
 
   async function fetchApplications() {
     const { data, error } = await supabase
@@ -52,6 +54,20 @@ export default function ApplicationsPage() {
     fetchApplications();
   }, []);
 
+  const filteredApplications = applications.filter((app) =>
+    statusFilter === "All" ? true : app.status === statusFilter,
+  );
+
+  const visibleApplications =
+    sortBy === "deadline"
+      ? [...filteredApplications].sort((a, b) => {
+          if (!a.deadline && !b.deadline) return 0;
+          if (!a.deadline) return 1;
+          if (!b.deadline) return -1;
+          return a.deadline.localeCompare(b.deadline);
+        })
+      : filteredApplications;
+
   return (
     <div>
       <ApplicationForm
@@ -61,8 +77,25 @@ export default function ApplicationsPage() {
         onCancel={() => setEditingApp(null)}
       />
       {actionError && <p>Error: {actionError}</p>}
+      <select
+        value={statusFilter}
+        onChange={(e) => setStatusFilter(e.target.value)}
+      >
+        <option value="All">All</option>
+        <option value="Applied">Applied</option>
+        <option value="Online Assessment">Online Assessment</option>
+        <option value="Interview">Interview</option>
+        <option value="Offer">Offer</option>
+        <option value="Rejected">Rejected</option>
+      </select>
+
+      <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+        <option value="added">Newest first</option>
+        <option value="deadline">Deadline (soonest first)</option>
+      </select>
+      
       <ApplicationList
-        applications={applications}
+        applications={visibleApplications}
         loading={loading}
         error={error}
         onDelete={handleDelete}

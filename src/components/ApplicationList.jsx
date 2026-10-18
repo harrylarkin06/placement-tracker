@@ -49,7 +49,7 @@ export default function ApplicationList({
 }) {
   if (loading) return <p>Loading…</p>;
   if (error) return <p>Error: {error}</p>;
-  if (applications.length === 0) return <p>No applications yet.</p>;
+  if (applications.length === 0) return <p>No applications to show.</p>;
 
   return (
     <ul>
