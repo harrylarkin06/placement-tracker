@@ -106,4 +106,25 @@ export default function ApplicationsPage() {
       >
         <option value="All">All</option>
         <option value="Applied">Applied</option>
-        <option value="Online
+        <option value="Online Assessment">Online Assessment</option>
+        <option value="Interview">Interview</option>
+        <option value="Offer">Offer</option>
+        <option value="Rejected">Rejected</option>
+      </select>
+
+      <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+        <option value="added">Newest first</option>
+        <option value="deadline">Deadline (soonest first)</option>
+      </select>
+
+      {/* The list only displays; clicking Edit or Delete calls back into this page */}
+      <ApplicationList
+        applications={visibleApplications}
+        loading={loading}
+        error={error}
+        onDelete={handleDelete}
+        onEdit={setEditingApp}
+      />
+    </div>
+  );
+}
