@@ -4,7 +4,7 @@ A web app for logging and tracking placement and job applications through a simp
 
 **Live demo:** https://placement-tracker-five-kappa.vercel.app/
 
-![Screenshot of the application dashboard]("C:\Users\harry\OneDrive\Pictures\Screenshots\placement_tracker_screenshot.png")
+![Screenshot of the application dashboard](placement_tracker_screenshot.png)
 
 ## Features
 
