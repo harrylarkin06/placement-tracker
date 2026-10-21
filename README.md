@@ -1,16 +1,15 @@
-# React + Vite
+# Placement Application Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web app for logging and tracking placement and job applications through a simple pipeline, from first application to offer.
 
-Currently, two official plugins are available:
+**Live demo:** https://placement-tracker-five-kappa.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Screenshot of the application dashboard](<img width="1915" height="992" alt="placement_tracker_screenshot" src="https://github.com/user-attachments/assets/7308b3ab-7435-4bef-b0b3-0c9588f8e87f" />)
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Sign up, log in and log out with email and password
+- Create, view, edit and delete applications (company, role, status, deadline, date applied, notes)
+- Track each application through five statuses: Applied, Online Assessment, Interview, Offer, Rejected
+- Filter by status and sort by deadline
+- Private data: each user can only see their own applications
