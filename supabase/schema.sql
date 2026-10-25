@@ -7,8 +7,8 @@ create table applications (
   company      text not null,
   role         text not null,
   -- Must be one of the allowed statuses, even if the form is bypassed
-  status       text not null default 'Applied'
-               check (status in ('Applied', 'Online Assessment', 'Interview', 'Offer', 'Rejected')),
+  status       text not null default 'Yet to apply'
+               check (status in ('Yet to apply', 'Applied', 'Online Assessment', 'Interview', 'Offer', 'Rejected')),
   -- Optional fields (no "not null")
   deadline     date,
   date_applied date,

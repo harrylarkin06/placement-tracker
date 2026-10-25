@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import ApplicationForm from "./ApplicationForm";
 import ApplicationList from "./ApplicationList";
+import { STATUSES } from "../constants";
 
 // The main page. It owns the data and talks to the database, and hands
 // the pieces to the form and the list to display.
@@ -76,8 +77,8 @@ export default function ApplicationsPage() {
 
   const visibleApplications =
     sortBy === "deadline"
-      // [...list] makes a copy first, because sort() would otherwise change the original
-      ? [...filteredApplications].sort((a, b) => {
+      ? // [...list] makes a copy first, because sort() would otherwise change the original
+        [...filteredApplications].sort((a, b) => {
           // Applications with no deadline go to the bottom
           if (!a.deadline && !b.deadline) return 0;
           if (!a.deadline) return 1;
@@ -100,18 +101,28 @@ export default function ApplicationsPage() {
       />
       {actionError && <p>Error: {actionError}</p>}
 
+      {/* Filter applications by status. Controlled input: React state (statusFilter)
+    is the single source of truth for the selected value. */}
       <select
         value={statusFilter}
         onChange={(e) => setStatusFilter(e.target.value)}
       >
+        {/* "All" is a filter value meaning "don't filter", not a real status,
+      so it's hardcoded here instead of living in STATUSES or the database. */}
         <option value="All">All</option>
-        <option value="Applied">Applied</option>
-        <option value="Online Assessment">Online Assessment</option>
-        <option value="Interview">Interview</option>
-        <option value="Offer">Offer</option>
-        <option value="Rejected">Rejected</option>
+
+        {/* Options come from the shared STATUSES constant so the filter and the
+      form can't drift apart when a status is added or renamed. */}
+        {STATUSES.map((status) => (
+          // key lets React track each item between renders; statuses are unique
+          <option key={status} value={status}>
+            {status}
+          </option>
+        ))}
       </select>
 
+      {/* Sort order for the list. Sorting happens in the browser on the already-filtered
+    applications, so changing it doesn't trigger a new database request. */}
       <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
         <option value="added">Newest first</option>
         <option value="deadline">Deadline (soonest first)</option>
