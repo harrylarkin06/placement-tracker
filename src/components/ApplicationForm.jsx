@@ -13,7 +13,7 @@ export default function ApplicationForm({ editingApp, onSaved, onCancel }) {
   // existing value; when adding, it starts empty ("??" means "or else use this").
   const [company, setCompany] = useState(editingApp?.company ?? "");
   const [role, setRole] = useState(editingApp?.role ?? "");
-  const [status, setStatus] = useState(editingApp?.status ?? "Applied");
+  const [status, setStatus] = useState(editingApp?.status ?? "Yet to apply");
   const [deadline, setDeadline] = useState(editingApp?.deadline ?? "");
   const [dateApplied, setDateApplied] = useState(
     editingApp?.date_applied ?? "",
@@ -61,7 +61,7 @@ export default function ApplicationForm({ editingApp, onSaved, onCancel }) {
     // Success: empty the form, then tell the parent page so it can refresh the list
     setCompany("");
     setRole("");
-    setStatus("Applied");
+    setStatus("Yet to apply");
     setDeadline("");
     setDateApplied("");
     setNotes("");
